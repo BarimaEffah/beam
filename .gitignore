@@ -1,0 +1,5 @@
+bin/
+obj/
+NOTES.md
+.DS_Store
+.vscode/
