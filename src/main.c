@@ -61,13 +61,13 @@ int main(void)
     ssdp_response *responses[MAX_DEVICES];
     receive_ssdp_msg(UDP_SOCKET, responses);
 
-    for (int i = 0; i < MAX_DEVICES; i++)
-    {
-        if (responses[i])
-        {
-            printf("Device: %s\n", responses[i]->usn);
-        }
-    }
+    // for (int i = 0; i < MAX_DEVICES; i++)
+    // {
+    //     if (responses[i])
+    //     {
+    //         printf("Device: %s\n", responses[i]->usn);
+    //     }
+    // }
 
     close(UDP_SOCKET);
     return 0;

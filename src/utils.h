@@ -92,4 +92,116 @@ split_r *split(char *str, const char *delim, int max_tokens)
     return result;
 }
 
+// Binary trees - In binary trees each node can have at most two children.
+typedef struct TreeNode
+{
+    int data;
+    TreeNode *left, *right;
+} TreeNode;
+
+TreeNode *createNode(int data)
+{
+    TreeNode *node = (TreeNode *)malloc(sizeof(TreeNode));
+    node->data = data;
+    node->left = NULL;
+    node->right = NULL;
+}
+
+typedef struct QueueNode
+{
+    int data;
+    QueueNode *next;
+} QueueNode;
+
+typedef struct Queue
+{
+    QueueNode *front, *rear;
+} Queue;
+
+QueueNode *createQueueNode(int data)
+{
+    QueueNode *node = (QueueNode *)malloc(sizeof(QueueNode));
+    if (node == NULL)
+    {
+        perror("could not allocate memory for QueueNode");
+        exit(EXIT_FAILURE);
+    }
+    node->data = data;
+    node->next = NULL;
+    return node;
+}
+
+Queue *createQueue(int data)
+{
+    Queue *queue = (Queue *)malloc(sizeof(Queue));
+    if (queue == NULL)
+    {
+        perror("could not allocate memory for Queue");
+        exit(EXIT_FAILURE);
+    }
+    queue->front = createQueueNode(data);
+    queue->rear = queue->front;
+    return queue;
+}
+
+void enqueue(Queue *queue, int data)
+{
+    QueueNode *node = createQueueNode(data);
+    if (queue->front == NULL)
+    {
+        queue->front = queue->rear = node;
+        return;
+    }
+    queue->rear->next = node;
+    queue->rear = node;
+}
+
+QueueNode *dequeue(Queue *queue)
+{
+    if (queue->front == NULL)
+    {
+        return NULL;
+    }
+    QueueNode *node = queue->front;
+    queue->front = queue->front->next;
+
+    if (queue->front == NULL)
+    {
+        queue->rear = NULL;
+    }
+
+    return node;
+}
+
+typedef struct BSTNode
+{
+    int data;
+    BSTNode *left, *right;
+} BSTNode;
+
+BSTNode *createBSTNode(int data)
+{
+    BSTNode *node = (BSTNode *)malloc(sizeof(BSTNode));
+    node->data = data;
+    node->left = NULL;
+    node->right = NULL;
+}
+
+// void insertBST(BSTNode *root, int data)
+// {
+//     if (root == NULL)
+//     {
+//         root = createBSTNode(data);
+//         return;
+//     }
+//     if (data < root->data)
+//     {
+//         insertBST(root->left, data);
+//     }
+//     else if (data > root->data)
+//     {
+//         insertBST(root->right, data);
+//     }
+// }
+
 #endif

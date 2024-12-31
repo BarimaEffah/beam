@@ -35,6 +35,8 @@ typedef struct
     char location[256];
     char usn[256];
     char device_type[64];
+    char *server;
+    int ttl;
 } ssdp_response;
 
 int validate_ssdp_msg(ssdp_msg *msg);
