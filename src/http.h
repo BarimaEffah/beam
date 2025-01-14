@@ -72,5 +72,6 @@ void make_http_request(http_request *request, http_response *response);
 
 void parse_json(char *json, char **dest);
 void parse_url(char *url, url_t *dest);
+void free_url(url_t *url);
 
 #endif

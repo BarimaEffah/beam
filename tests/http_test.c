@@ -1,6 +1,17 @@
 #include "test.h"
 #include "../src/http.h"
 
+TEST(parse_url)
+{
+    char *url = "https://google.com/path/to/file?query=param&another=value";
+    url_t *parsed = malloc(sizeof(url_t));
+    parse_url(url, parsed);
+    ASSERT_EQ_STR("google.com", parsed->host);
+    ASSERT_EQ_STR("/path/to/file", parsed->path);
+    ASSERT_EQ_STR("query=param&another=value", parsed->query);
+    free_url(parsed);
+}
+
 TEST(encode_request)
 {
     http_request opts = {

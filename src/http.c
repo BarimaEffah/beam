@@ -4,6 +4,25 @@
 #include <errno.h>
 #include <string.h>
 
+void free_url(url_t *url)
+{
+    if (url == NULL)
+    {
+        return;
+    }
+    free(url->scheme);
+    free(url->host);
+    free(url->port);
+    free(url->path);
+    free(url->query);
+    free(url->fragment);
+}
+
+void parse_url(char *url, url_t *dest)
+{
+    char *scheme = NULL;
+}
+
 void free_request(http_request *request)
 {
     if (request == NULL)
@@ -36,6 +55,17 @@ http_request *new_request(http_request *opts)
     }
 
     http_request *request = malloc(sizeof(http_request));
+
+    url_t *url = malloc(sizeof(url_t));
+    memset(url, 0, sizeof(url_t));
+    if (url == NULL)
+    {
+        errno = ENOMEM;
+        perror("could not allocate memory for url");
+        return NULL;
+    }
+    parse_url(opts->url, url);
+    request->url_t = url;
 
     if (request == NULL)
     {
