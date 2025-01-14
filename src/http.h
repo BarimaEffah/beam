@@ -5,6 +5,15 @@
 #define MAX_HTTP_BUFFER_SIZE 65536
 #define MAX_HTTP_HEADER_SIZE 16384
 
+typedef struct
+{
+    char *scheme;
+    char *host;
+    char *port;
+    char *path;
+    char *query;
+    char *fragment;
+} url_t;
 typedef enum http_method
 {
     GET,
@@ -22,6 +31,7 @@ typedef struct
     char *http_version;
     char *host;
     http_method method;
+    url_t *url_t;
     char *url;
     char *content_type;
     int content_length;
@@ -61,5 +71,6 @@ void http_options(http_request *request);
 void make_http_request(http_request *request, http_response *response);
 
 void parse_json(char *json, char **dest);
+void parse_url(char *url, url_t *dest);
 
 #endif

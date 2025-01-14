@@ -15,7 +15,7 @@ TEST(encode_request)
 
     http_request *req = new_request(&opts);
     char *request = encode_request(req);
-    char *expected = "GET google.com HTTP/1.1\r\nHost:localhost\r\nUser-Agent:BEAM_TEST\r\nAccept:*/*\r\nContent-Type:application/json\r\nContent-Length:0\r\nAuthorization:Bearer 1234567890\r\nX-API-Key:1234567890\r\n\r\n";
+    char *expected = "GET google.com HTTP/1.1\r\nHost:google.com\r\nUser-Agent:BEAM_TEST\r\nAccept:*/*\r\nContent-Type:application/json\r\nContent-Length:0\r\nAuthorization:Bearer 1234567890\r\nX-API-Key:1234567890\r\n\r\n";
     ASSERT_EQ_STR(expected, request);
     free_request(req);
 }

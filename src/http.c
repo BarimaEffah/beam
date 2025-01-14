@@ -45,7 +45,7 @@ http_request *new_request(http_request *opts)
     }
 
     request->http_version = strdup(opts->http_version ? opts->http_version : "HTTP/1.1");
-    request->host = strdup(opts->host ? opts->host : "localhost");
+    request->host = strdup(opts->host ? opts->host : "");
     request->method = opts->method ? opts->method : GET;
     request->url = strdup(opts->url);
     request->content_type = strdup(opts->content_type ? opts->content_type : "application/json");
@@ -134,7 +134,7 @@ char *encode_request(http_request *request)
 
     printf("Headers(%d): %s\n", request->headers_count, headers);
 
-    int print_len = snprintf(buffer, MAX_HTTP_BUFFER_SIZE, "%s %s HTTP/1.1\r\nHost:%s\r\nUser-Agent:%s\r\nAccept:%s\r\nContent-Type:%s\r\nContent-Length:%d\r\n%s\r\n%s", http_method_to_string(request->method), request->url, request->host, request->user_agent, request->accept, request->content_type, request->content_length, headers ? headers : "", request->body ? request->body : "");
+    int print_len = snprintf(buffer, MAX_HTTP_BUFFER_SIZE, "%s %s HTTP/1.1\r\nHost:%s\r\nUser-Agent:%s\r\nAccept:%s\r\nContent-Type:%s\r\nContent-Length:%d\r\n%s\r\n%s", http_method_to_string(request->method), request->url_t->host, request->url_t->host, request->user_agent, request->accept, request->content_type, request->content_length, headers ? headers : "", request->body ? request->body : "");
 
     if (print_len >= MAX_HTTP_BUFFER_SIZE)
     {
