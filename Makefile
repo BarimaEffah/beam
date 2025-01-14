@@ -3,6 +3,8 @@ CFLAGS = -Wall -Wextra -pedantic -std=c2x -g
 SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
+FRAMEWORKS = -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
+RAYLIB = ./lib/libraylib.a
 
 TARGET = $(BINDIR)/beam
 SRCFILES := $(wildcard $(SRCDIR)/**/*.c $(SRCDIR)/*.c) 
@@ -11,14 +13,14 @@ OBJFILES := $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCFILES))
 
 $(TARGET): $(OBJFILES)
 	@mkdir -p $(BINDIR)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(FRAMEWORKS) $(RAYLIB) 
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 .PHONY: run
-run: $(TARGET)
+run: $(TARGET) 
 	./$(TARGET)
 
 .PHONY:clean

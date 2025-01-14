@@ -3,6 +3,7 @@
 #include <signal.h>
 #include "net.h"
 #include "ssdp.h"
+#include "../include/raylib.h"
 
 #define MAX_RETRY_COUNT 10
 #define RETRY_DELAY_SEC 1
@@ -21,6 +22,7 @@ void handle_signal(int sig)
 
 int main(void)
 {
+    InitWindow(800, 600, "BEAM");
     int retry_count = 0;
     int res;
     UDP_SOCKET = init_udp_socket();
@@ -70,5 +72,6 @@ int main(void)
     // }
 
     close(UDP_SOCKET);
+    CloseWindow();
     return 0;
 }
