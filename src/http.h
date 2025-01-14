@@ -3,6 +3,7 @@
 
 #define HTTP_DEFAULT_PORT 80
 #define MAX_HTTP_BUFFER_SIZE 65536
+#define MAX_HTTP_HEADER_SIZE 16384
 
 typedef enum http_method
 {
@@ -32,6 +33,10 @@ typedef struct
     int headers_count;
 } http_request;
 
+typedef struct http_request request_opts;
+
+http_request *new_request(http_request *opts);
+
 void free_request(http_request *request);
 
 typedef struct
@@ -46,12 +51,12 @@ void parse_response(char *response, http_response *dest);
 
 char *encode_request(http_request *request);
 char *encode_headers(char **headers, int count);
-static void http_get(http_request *request);
-static void http_post(http_request *request);
-static void http_put(http_request *request);
-static void http_delete(http_request *request);
-static void http_head(http_request *request);
-static void http_options(http_request *request);
+void http_post(http_request *request);
+void http_get(http_request *request);
+void http_put(http_request *request);
+void http_delete(http_request *request);
+void http_head(http_request *request);
+void http_options(http_request *request);
 
 void make_http_request(http_request *request, http_response *response);
 

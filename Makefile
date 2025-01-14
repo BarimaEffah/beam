@@ -11,6 +11,13 @@ SRCFILES := $(wildcard $(SRCDIR)/**/*.c $(SRCDIR)/*.c)
 OBJFILES := $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCFILES))
 
 
+TESTDIR = tests
+TESTS = $(wildcard $(TESTDIR)/**/*.c $(TESTDIR)/*.c)
+TESTTARGET = $(BINDIR)/beam_test
+MAIN_OBJ = $(OBJDIR)/main.o
+TEST_OBJS = $(filter-out $(MAIN_OBJ), $(OBJFILES))
+
+
 $(TARGET): $(OBJFILES)
 	@mkdir -p $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(FRAMEWORKS) $(RAYLIB) 
@@ -18,6 +25,14 @@ $(TARGET): $(OBJFILES)
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(TESTTARGET): $(TESTS) $(TEST_OBJS) $(TESTDIR)/test.h
+	mkdir -p $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $(TESTDIR)/test.c $(TEST_OBJS)
+
+.PHONEY:test
+test: $(TESTTARGET)
+	./$(TESTTARGET)
 
 .PHONY: run
 run: $(TARGET) 
