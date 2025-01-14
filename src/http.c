@@ -55,6 +55,7 @@ http_request *new_request(http_request *opts)
     request->accept = strdup(opts->accept ? opts->accept : "*/*");
     request->encoding = strdup(opts->encoding ? opts->encoding : "");
     request->headers = opts->headers;
+    request->headers_count = opts->headers_count ? opts->headers_count : 0;
     return request;
 }
 
@@ -130,6 +131,8 @@ char *encode_request(http_request *request)
             return NULL;
         }
     }
+
+    printf("Headers(%d): %s\n", request->headers_count, headers);
 
     int print_len = snprintf(buffer, MAX_HTTP_BUFFER_SIZE, "%s %s HTTP/1.1\r\nHost:%s\r\nUser-Agent:%s\r\nAccept:%s\r\nContent-Type:%s\r\nContent-Length:%d\r\n%s\r\n%s", http_method_to_string(request->method), request->url, request->host, request->user_agent, request->accept, request->content_type, request->content_length, headers ? headers : "", request->body ? request->body : "");
 

@@ -31,16 +31,16 @@ static int failed_assertions = 0;
         }                                                                         \
                                                                                   \
     } while (0)
-#define ASSERT_EQ_STR(expected, actual)                                                                    \
-    do                                                                                                     \
-    {                                                                                                      \
-        if (strcmp(expected, actual) != 0)                                                                 \
-        {                                                                                                  \
-            printf(COLOR_RED "Assertion Failed: expected %s, got %s\n" COLOR_RESET, expected, actual);     \
-        }                                                                                                  \
-        else                                                                                               \
-        {                                                                                                  \
-            printf(COLOR_GREEN "Assertion passed: expected %s, got %s \n" COLOR_RESET, expected, #actual); \
-        }                                                                                                  \
+#define ASSERT_EQ_STR(expected, actual)                                                                       \
+    do                                                                                                        \
+    {                                                                                                         \
+        if (strcmp(expected, actual) != 0)                                                                    \
+        {                                                                                                     \
+            printf(COLOR_RED "Assertion Failed:\nEXPECTED: %s\nACTUAL: %s\n" COLOR_RESET, expected, actual);  \
+        }                                                                                                     \
+        else                                                                                                  \
+        {                                                                                                     \
+            printf(COLOR_GREEN "Assertion passed: expected %s\nACTUAL: %s \n" COLOR_RESET, expected, actual); \
+        }                                                                                                     \
     } while (0)
 #endif
