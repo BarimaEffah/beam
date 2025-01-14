@@ -1,6 +1,9 @@
 #ifndef BEAM_HTTP_H
 #define BEAM_HTTP_H
 
+#define HTTP_DEFAULT_PORT 80
+#define MAX_HTTP_BUFFER_SIZE 65536
+
 typedef enum http_method
 {
     GET,
@@ -10,9 +13,13 @@ typedef enum http_method
     HEAD,
     OPTIONS,
 } http_method;
+
+char *http_method_to_string(http_method method);
+
 typedef struct
 {
     char *http_version;
+    char *host;
     http_method method;
     char *url;
     char *content_type;
@@ -22,6 +29,7 @@ typedef struct
     char *accept;
     char *encoding;
     char **headers;
+    int headers_count;
 } http_request;
 
 void free_request(http_request *request);
@@ -37,7 +45,7 @@ typedef struct
 void parse_response(char *response, http_response *dest);
 
 char *encode_request(http_request *request);
-
+char *encode_headers(char **headers, int count);
 static void http_get(http_request *request);
 static void http_post(http_request *request);
 static void http_put(http_request *request);
