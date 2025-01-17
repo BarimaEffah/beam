@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+#include "utils.h"
 
 void free_url(url_t *url)
 {
@@ -18,9 +19,17 @@ void free_url(url_t *url)
     free(url->fragment);
 }
 
-void parse_url(char *url, url_t *dest)
+int parse_url(char *url, url_t *dest)
 {
-    char *scheme = NULL;
+    if (url == NULL || dest == NULL)
+    {
+        errno = EINVAL;
+        perror("url or dest is NULL");
+        return -1;
+    }
+    dest->fragment = find_and_terminate(url, '#');
+    dest->query = find_and_terminate(url, '?');
+    memset(dest, 0, sizeof(url_t));
 }
 
 void free_request(http_request *request)
@@ -64,9 +73,13 @@ http_request *new_request(http_request *opts)
         perror("could not allocate memory for url");
         return NULL;
     }
-    parse_url(opts->url, url);
-    request->url_t = url;
+    if (parse_url(opts->url, url) < 0)
+    {
+        free(url);
+        return NULL;
+    }
 
+    request->url_t = url;
     if (request == NULL)
     {
         errno = ENOMEM;
